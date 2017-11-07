@@ -1,13 +1,14 @@
-# Get AWS REserved Instance Coverage
+# Get AWS Reserved Instance Coverage
 
 This script summarises the current usage by instance type in each region and compares this against the active
-reserved instances in that region. 
+reserved instances in that region. This allows you to know whether you currently have coverage for your resource 
+usage and where to reserve more instances if required. 
 
 Currently the script checks EC2 and RDS instances. 
 
 ## Usage
 
-  getRICoverage.py
+  ./getRICoverage.py
 
 ## Sample Output 
 ```
@@ -38,3 +39,5 @@ Currently the script checks EC2 and RDS instances.
 ## Todo
 
 + For RDS the AZ Type must match the RI purchased type itherwise it doesn't count as a match 
++ Add Redshift 
++ Add any other reserved instance types supported 
