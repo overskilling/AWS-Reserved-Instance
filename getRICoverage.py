@@ -3,7 +3,7 @@
 #
 from collections import Counter
 import boto3
-from termcolor import colored, cprint
+from termcolor import colored
 
 def getAllRegions():
     ec2 = boto3.client('ec2', region_name='eu-west-1')
