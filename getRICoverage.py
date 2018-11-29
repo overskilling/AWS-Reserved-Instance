@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
-#
+'''
+  Get the Reserved Instance Usage for each region
+'''
 from collections import Counter
 import boto3
 from termcolor import colored
@@ -25,10 +27,11 @@ def getAllRDSReservedInstances(regions):
     instances = []
     for region in regions:
         rds = boto3.client('rds', region_name=region['RegionName'])
-        # Add the region - no filters for RDS
+        # Add the region - no filters for RDS so we filter by hand 
         for i in rds.describe_reserved_db_instances()['ReservedDBInstances']:
-            i['Region'] = region['RegionName']
-            instances.append(i)
+            if i['State'] == 'active' :
+                i['Region'] = region['RegionName']
+                instances.append(i)
     return instances
 
 def getAllEC2Instances(regions):
@@ -54,6 +57,20 @@ def getAllEC2ReservedInstances(regions):
         for i in ec2.describe_reserved_instances(Filters=[filter])['ReservedInstances']:
             i['Region'] = region['RegionName']
             instances.append(i)
+    return instances
+
+def getAllElasticacheInstances(regions):
+    # Get all of the regions
+    instances = []
+    for region in regions:
+        ec2 = boto3.client('elasticache', region_name=region['RegionName'])
+        # Add the region
+        response = ec2.describe_instances()
+        ec2List = response['Reservations']
+        for e in ec2List:
+            for i in e['Instances']:
+                i['Region'] = region['RegionName']
+                instances.append(i)
     return instances
 
 def EC2Report():
@@ -103,7 +120,7 @@ def RDSReport():
                     status = colored(u'\u274C', 'red')
                 else:
                     status = colored(u'\u2713', 'green')
-                print('  %12s  Usage: %2d Reserved: %2d : %s' % (db[0], usage[db[0]], reserved[db[0]], status))
+                print('  %15s  Usage: %2d Reserved: %2d : %s' % (db[0], usage[db[0]], reserved[db[0]], status))
 
 def main():
     '''EC2 and RDS Reserved Instance Coverage Report'''

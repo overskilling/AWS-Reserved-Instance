@@ -1,0 +1,8 @@
+# For pip-compile
+pip-tools
+# For source code checking
+pylint
+# For AWS Interaction
+boto3
+# For colorizing output
+termcolor
