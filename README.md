@@ -4,7 +4,7 @@ This script summarises the current usage by instance type in each region and com
 reserved instances in that region. This allows you to know whether you currently have coverage for your resource 
 usage and where to reserve more instances if required. 
 
-Currently the script checks EC2 and RDS instances. 
+Currently the script checks Elasticache, EC2 and RDS instances. 
 
 ## Usage
 
@@ -12,6 +12,17 @@ Currently the script checks EC2 and RDS instances.
 
 ## Sample Output 
 ```
+  Cache
+ =======
+
+    eu-west-2
+   ===========
+  cache.m4.xlarge  Usage:  2 Reserved:  2 : ✓
+
+    eu-west-1
+   ===========
+  cache.m4.xlarge  Usage:  2 Reserved:  0 : ❌
+
  RDS
 =====
 
